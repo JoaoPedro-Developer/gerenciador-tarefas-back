@@ -1,3 +1,4 @@
+import { notFoundError } from '../errors/mongodb.error.js'
 import { TaskModel } from '../models/task.model.js'
 
 export class TaskController {
@@ -21,7 +22,7 @@ export class TaskController {
             const taskId = this.req.params.id
             const task = await TaskModel.findById(taskId)
             if (!task) {
-               return this.res.status(404).send('Tarefa não encontrada')
+                return notFoundError(this.res)
             }
             this.res.status(200).send(task)
         } catch (error) {
@@ -65,7 +66,7 @@ export class TaskController {
             const taskId = this.req.params.id
             const taskToDelete = await TaskModel.findById(taskId)
             if (!taskToDelete) {
-                this.res.status(404).send('Tarefa não encontrada')
+                return notFoundError(this.res)
             }
             const deletedTask = await TaskModel.findByIdAndDelete(taskId)
             this.res.status(200).send(deletedTask)
