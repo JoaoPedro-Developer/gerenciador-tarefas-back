@@ -1,3 +1,4 @@
+import { notAllowedFieldsToUpdateError } from '../errors/general.errors.js'
 import { notFoundError } from '../errors/mongodb.error.js'
 import { TaskModel } from '../models/task.model.js'
 
@@ -45,13 +46,14 @@ export class TaskController {
             const taskId = this.req.params.id
             const taskData = this.req.body
             const taskToUpdate = await TaskModel.findById(taskId)
+            if (!taskToUpdate) return notFoundError(this.res)
             const allowedUpdated = ['isCompleted']
             const requestedUpdates = Object.keys(taskData)
             for (const update of requestedUpdates) {
                 if (allowedUpdated.includes(update)) {
                     taskToUpdate[update] = taskData[update]
                 } else {
-                    return this.res.status(500).send('Um ou mais campos não são editaveis')
+                    return notAllowedFieldsToUpdateError(this.res)
                 }
             }
             await taskToUpdate.save()
