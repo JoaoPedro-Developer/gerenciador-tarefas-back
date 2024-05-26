@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+import { Schema, model } from 'mongoose'  
 
 const TaskSchema = Schema({
     description: {
@@ -11,5 +11,4 @@ const TaskSchema = Schema({
     }
 })
 
-const TaskModel = model('Task', TaskSchema)
-module.exports = TaskModel
+export const TaskModel = model('Task', TaskSchema)

@@ -1,8 +1,7 @@
-const express = require('express')
-const dotenv = require('dotenv')
-
-const connecToDatabase = require('./src/database/mongoose.database')
-const TaskRouter = require('./src/routes/task.routes')
+import express from 'express'
+import dotenv from 'dotenv'
+import { connecToDatabase } from './src/database/mongoose.database.js'
+import { router as TaskRouter }  from './src/routes/task.routes.js'
 
 dotenv.config()
 const app = express()
